@@ -1,5 +1,12 @@
 <template>
-
+  <header class="page-header">
+    <m-button
+      class="page-header__button"
+      @click="$emit('modal-show')"
+    >
+      Watched
+    </m-button>
+  </header>
 </template>
 
 <script>
