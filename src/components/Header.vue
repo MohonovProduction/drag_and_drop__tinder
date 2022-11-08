@@ -17,4 +17,8 @@ export default {
 
 <style scoped>
 
+.page-header {
+  padding: 1em;
+}
+
 </style>

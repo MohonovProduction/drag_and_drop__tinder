@@ -30,7 +30,6 @@ export default {
   --border-radius: 1em;
   z-index: 10;
   position: relative;
-  max-width: 500px;
   margin-bottom: 1em;
   border-radius: var(--border-radius);
   background-color: aliceblue;
@@ -42,7 +41,8 @@ export default {
 
 .card__img {
   width: 100%;
-  height: 500px;
+  min-height: 300px;
+  max-height: 100%;
   object-fit: cover;
   object-position: center center;
   border-radius: var(--border-radius) var(--border-radius);

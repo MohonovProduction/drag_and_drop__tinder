@@ -28,45 +28,46 @@
       </div>
     </m-modal>
   </Transition>
+  <div class="center">
+    <main class="wrapper">
 
-  <main class="wrapper">
+      <template v-if="itemNowId + 1 < items.length">
 
-    <template v-if="itemNowId + 1 < items.length">
+        <div
+          class="zone zone__love"
+          :class="{ 'zone__love_active': zones.liked.active }"
+          @drop="onDrop($event, 1); zones.liked.active = false"
+          @dragenter.prevent="zones.liked.active = true"
+          @dragover.prevent
+          @dragleave="zones.liked.active = false"
+        ></div>
 
-      <div
-        class="zone zone__love"
-        :class="{ 'zone__love_active': zones.liked.active }"
-        @drop="onDrop($event, 1); zones.liked.active = false"
-        @dragenter.prevent="zones.liked.active = true"
-        @dragover.prevent
-        @dragleave="zones.liked.active = false"
-      ></div>
+        <m-card
+          draggable="true"
+          @dragstart="startDrag($event, itemNowId)"
+          :img-src="items[itemNowId].image"
+        >
+          <h1 class="heading card__heading">{{ items[itemNowId].name }}</h1>
+          <p class="text card__text">{{ items[itemNowId].description }}</p>
+        </m-card>
 
-      <m-card
-        draggable="true"
-        @dragstart="startDrag($event, itemNowId)"
-        :img-src="items[itemNowId].image"
-      >
-        <h1 class="heading card__heading">{{ items[itemNowId].name }}</h1>
-        <p class="text card__text">{{ items[itemNowId].description }}</p>
-      </m-card>
+        <div
+          class="zone zone__cancel"
+          :class="{ 'zone__cancel_active': zones.canceled.active }"
+          @drop="onDrop($event, 0); zones.canceled.active = false"
+          @dragenter.prevent="zones.canceled.active = true"
+          @dragover.prevent
+          @dragleave="zones.canceled.active = false"
+        ></div>
 
-      <div
-        class="zone zone__cancel"
-        :class="{ 'zone__cancel_active': zones.canceled.active }"
-        @drop="onDrop($event, 0); zones.canceled.active = false"
-        @dragenter.prevent="zones.canceled.active = true"
-        @dragover.prevent
-        @dragleave="zones.canceled.active = false"
-      ></div>
+      </template>
 
-    </template>
+      <template v-else>
+        <h2 class="heading main__heading_warn">Харош на девак пялить, иди поспи</h2>
+      </template>
 
-    <template v-else>
-      <h2 class="heading main__heading_warn">Харош на девак пялить, иди поспи</h2>
-    </template>
-
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -169,5 +170,92 @@ export default {
 </script>
 
 <style scoped>
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: minmax(20px, 400px) minmax(300px, 500px) minmax(20px, 400px);
+  align-items: center;
+  grid-gap: 1em;
+  padding: 5rem;
+  min-height: 90vh;
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 1em 0;
+  }
+}
+
+.main__heading_warn {
+  opacity: .7;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card__heading {
+  margin-bottom: .3em;
+}
+.card__text {
+  margin-bottom: .3em;
+}
+
+.modal__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em 2em;
+  padding: 1em 2em 0 2em;
+}
+
+.zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3em;
+  min-height: 100%;
+  flex: 1 0 200px;
+  transition: all .3s ease-in-out;
+}
+.zone__love {
+  background-color: brown;
+  opacity: .1;
+}
+.zone__love::before {
+  content: '❤';
+  font-size: 2em;
+}
+.zone__love_active {
+  box-shadow: 0 0 10px 10px darkred;
+  background-color: darkred;
+  opacity: .5;
+}
+.zone__cancel {
+  background-color: gray;
+  opacity: .1;
+}
+.zone__cancel::before {
+  content: '✖';
+  font-size: 2em;
+}
+.zone__cancel_active {
+  box-shadow: 0 0 10px 10px gray;
+  background-color: gray;
+  opacity: .5;
+}
+
+@media (max-width: 1024px) {
+  .zone__love {
+    border-radius: 0 3em 3em 0;
+  }
+  .zone__cancel {
+    border-radius: 3em 0 0 3em;
+  }
+}
 
 </style>
