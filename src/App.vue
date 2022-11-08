@@ -1,45 +1,48 @@
 <template>
   <header class="page-header">
-    <button
-      class="button page-header__button"
+    <m-button
+      class="page-header__button"
       @click="modal.show = true"
     >
       Просмотренные
-    </button>
+    </m-button>
   </header>
 
-  <Transition>
+  <Transition name="fade">
     <article
       class="modal"
       v-if="modal.show"
     >
-      <button
-        class="button modal__button"
+      <m-button
+        class="modal__button"
         @click="modal.show = false"
-      >X</button>
+      >
+        ✖
+      </m-button>
       <div>
-        <article class="card modal__card">
+        <m-card>
           <h2 class="heading">Liked</h2>
+        </m-card>
+        <article class="card modal__card">
+
         </article>
-        <article
-          class="card modal__card"
+        <m-card
           v-for="item of liked"
         >
           <h1 class="heading card__heading">{{item.name}}</h1>
           <p class="text card__text">{{item.description}}</p>
-        </article>
+        </m-card>
       </div>
       <div>
-        <article class="card modal__card">
+        <m-card>
           <h2 class="heading">Canceled</h2>
-        </article>
-        <article
-          class="card modal__card"
+        </m-card>
+        <m-card
           v-for="item of canceled"
         >
           <h1 class="heading card__heading">{{item.name}}</h1>
           <p class="text card__text">{{item.description}}</p>
-        </article>
+        </m-card>
       </div>
     </article>
   </Transition>
@@ -57,21 +60,14 @@
         @dragleave="zones.liked.active = false"
       ></div>
 
-      <article
-        class="card"
+      <m-card
         draggable="true"
         @dragstart="startDrag($event, itemNowId)"
+        :img-src="items[itemNowId].image"
       >
-        <img :src="items[itemNowId].image" alt="" class="img card__img">
-        <article class="card__description">
-          <h1 class="heading card__heading">
-            {{ items[itemNowId].name }}
-          </h1>
-          <p class="text card__text">
-            {{ items[itemNowId].description }}
-          </p>
-        </article>
-      </article>
+        <h1 class="heading card__heading">{{ items[itemNowId].name }}</h1>
+        <p class="text card__text">{{ items[itemNowId].description }}</p>
+      </m-card>
 
       <div
         class="zone zone__cancel"
@@ -187,6 +183,7 @@ export default {
 </script>
 
 <style>
+
 :root {
   font-family: sans-serif;
   font-size: 1.3rem;
@@ -201,6 +198,19 @@ export default {
   border: none;
   outline: none;
   background: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transform: scale(1);
+  opacity: 1;
+  transition: .3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: scale(.99);
+  opacity: 0;
 }
 
 .wrapper {
@@ -218,29 +228,11 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.card {
-  z-index: 10;
-  border-radius: 3em;
-  overflow: hidden;
-  background-color: aliceblue;
-  box-shadow: 0 0 20px -5px sandybrown;
-  margin-bottom: 1em;
-  max-width: 500px;
-}
-.card:last-child {
-  margin-bottom: 0;
-}
-.card__img {
-  width: 100%;
-  height: 500px;
-  object-fit: cover;
-  object-position: center center;
-}
-.card__description {
-  padding: 1em 2em;
-}
 .card__heading {
-  margin-bottom: 1em;
+  margin-bottom: .3em;
+}
+.card__text {
+  margin-bottom: .3em;
 }
 
 .zone {
@@ -283,17 +275,6 @@ export default {
 .page-header {
   padding: 1em;
 }
-.button {
-  padding: 1em;
-  background-color: chocolate;
-  color: aliceblue;
-  font-size: 1em;
-  border-radius: 1em;
-}
-.button:hover,
-.button:active {
-  cursor: pointer;
-}
 
 .modal {
   z-index: 20;
@@ -305,7 +286,7 @@ export default {
 
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
 
   backdrop-filter: blur(10px);
 }
