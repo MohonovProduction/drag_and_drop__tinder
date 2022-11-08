@@ -9,42 +9,33 @@
   </header>
 
   <Transition name="fade">
-    <article
-      class="modal"
+    <m-modal
+      @close-modal="this.modal.show = false"
       v-if="modal.show"
     >
-      <m-button
-        class="modal__button"
-        @click="modal.show = false"
-      >
-        ✖
-      </m-button>
-      <div>
-        <m-card>
-          <h2 class="heading">Liked</h2>
-        </m-card>
-        <article class="card modal__card">
-
-        </article>
-        <m-card
-          v-for="item of liked"
-        >
-          <h1 class="heading card__heading">{{item.name}}</h1>
-          <p class="text card__text">{{item.description}}</p>
-        </m-card>
+      <div class="modal__wrapper">
+        <div>
+          <m-card><h2 class="heading">Liked</h2></m-card>
+          <m-card
+            v-for="item of liked"
+          >
+            <h1 class="heading card__heading">{{item.name}}</h1>
+            <p class="text card__text">{{item.description}}</p>
+          </m-card>
+        </div>
+        <div>
+          <m-card>
+            <h2 class="heading">Canceled</h2>
+          </m-card>
+          <m-card
+            v-for="item of canceled"
+          >
+            <h1 class="heading card__heading">{{item.name}}</h1>
+            <p class="text card__text">{{item.description}}</p>
+          </m-card>
+        </div>
       </div>
-      <div>
-        <m-card>
-          <h2 class="heading">Canceled</h2>
-        </m-card>
-        <m-card
-          v-for="item of canceled"
-        >
-          <h1 class="heading card__heading">{{item.name}}</h1>
-          <p class="text card__text">{{item.description}}</p>
-        </m-card>
-      </div>
-    </article>
+    </m-modal>
   </Transition>
 
   <main class="wrapper">
@@ -142,6 +133,9 @@ export default {
       ],
     }
   },
+  created() {
+
+  },
   methods: {
     startDrag(event, itemId) {
       console.log(this.items.length, itemId)
@@ -187,6 +181,8 @@ export default {
 :root {
   font-family: sans-serif;
   font-size: 1.3rem;
+
+  --z-imdex-modal: 20;
 }
 
 *,
@@ -235,6 +231,13 @@ export default {
   margin-bottom: .3em;
 }
 
+.modal__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em 2em;
+  padding: 1em 2em 0 2em;
+}
+
 .zone {
   display: flex;
   justify-content: center;
@@ -275,30 +278,5 @@ export default {
 .page-header {
   padding: 1em;
 }
-
-.modal {
-  z-index: 20;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-
-  backdrop-filter: blur(10px);
-}
-.modal__button {
-  position: absolute;
-  top: 2em;
-  left: 2em;
-}
-.modal__card {
-  padding: 2em;
-  overflow: visible;
-}
-
 
 </style>

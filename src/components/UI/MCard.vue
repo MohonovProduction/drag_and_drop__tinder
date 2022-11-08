@@ -31,9 +31,13 @@ export default {
   z-index: 10;
   position: relative;
   max-width: 500px;
+  margin-bottom: 1em;
   border-radius: var(--border-radius);
   background-color: aliceblue;
   box-shadow: 0 0 20px -5px sandybrown;
+}
+.card:last-child {
+  margin: 0;
 }
 
 .card__img {
