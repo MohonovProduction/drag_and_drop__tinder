@@ -178,8 +178,9 @@ export default {
 
 .wrapper {
   display: grid;
-  grid-template-columns: minmax(20px, 400px) minmax(300px, 500px) minmax(20px, 400px);
+  grid-template-columns: minmax(20px, 400px) 300px minmax(20px, 400px);
   align-items: center;
+  justify-items: stretch;
   grid-gap: 1em;
   padding: 5rem;
   min-height: 90vh;
